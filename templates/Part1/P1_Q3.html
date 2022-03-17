@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="{{url_for('.static', filename='style.css')}}" />
+    <title>Quiz App</title>
+	<style>
+		body{
+			background-image: url("{{ url_for('static', filename='1.jpg') }}")!important;
+			background-size: cover;
+		}
+		.quiz-container {
+  background-image:url("{{ url_for('static', filename='2.jpg') }}");
+  background-size: cover;
+  color:azure;
+ 
+}
+	</style>
+</head>
+  <body>
+
+    <div class="quiz-container" id="quiz">
+      <form action="" method="post">
+      <div class="quiz-header">
+        <h2 id="question">Question 3</h2>
+       
+        <ul>
+          <li>  <label for="a" id="a_text">Answer Below</label>
+            
+          
+          </li>
+          <li> 
+            <input type="text" id="answer" name="answer" placeholder=" Answer">
+          
+          </li>
+
+         
+        </ul>
+
+      </div>
+      <button id="submit">Submit</button>
+    </form>
+    </div>
+    
+  </body>
+</html>
