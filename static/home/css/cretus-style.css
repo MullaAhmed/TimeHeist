@@ -48,7 +48,7 @@ Cretus Website
   }
 
   a {
-    color: #202020;
+    color: #fff;
     text-decoration: none !important;
   }
 
@@ -71,7 +71,7 @@ Cretus Website
 
   ::-webkit-scrollbar-thumb {
     cursor: pointer;
-    background: #202020;
+    background: #fff;
   }
 
   .section-title {
@@ -132,7 +132,7 @@ Cretus Website
   }
 
   .online-form button:hover {
-    background: #202020;
+    background: #fff;
     color: #ffffff;
   } */
 
@@ -155,7 +155,7 @@ Cretus Website
 
   .section-btn:hover,
   .section-btn:focus {
-    background: #202020;
+    background: #fff;
     color: #ffffff;
   }
 
@@ -367,7 +367,7 @@ Cretus Website
   -----------------------------------------*/
 
   #project {
-    background: #ffffff;
+    background: #000;
   }
 
   #project .nav-tabs {
@@ -391,7 +391,7 @@ Cretus Website
   #project .nav-tabs>li.active>a:focus, 
   #project .nav-tabs>li.active>a:hover {
     background: transparent;
-    color: #202020;
+    color: #fff;
     border-bottom: 3px solid #092E20;
   }
 
@@ -399,7 +399,7 @@ Cretus Website
   #project .nav>li>a:hover {
     background: transparent;
     border-bottom: 3px solid #092E20;
-    color: #202020;
+    color: #fff;
   }
 
   #project .tab-content {
@@ -646,7 +646,7 @@ Cretus Website
 
     .custom-navbar .navbar-brand,
     .top-nav-collapse .navbar-brand {
-      color: #202020;
+      color: #fff;
       font-weight: normal;
     }
 

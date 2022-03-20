@@ -1,8 +1,17 @@
 #app.py
 from flask import *
 import json
+from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
+
+app.config["SQLALCHEMY_DATABASE_URI"] = 'sqlite:///registration.db'
+db = SQLAlchemy(app)
+class UserDetails(db.Model):
+    user_id = db.Column(db.Integer, primary_key = True)
+    user_email = db.Column(db.String, nullable = False) 
+    def __repr__(self):
+        return (self.user_id,"logged in using",self.user_email)
 
 def check_none():
     temp_attempt=(request.cookies.get('Attempt'))
