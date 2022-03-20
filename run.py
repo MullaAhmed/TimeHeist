@@ -1,7 +1,7 @@
 #app.py
 from flask import *
 import json
-from flask_sqlalchemy import SQLAlchemy
+# from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
 
