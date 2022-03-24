@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="{{url_for('.static', filename='style.css')}}" />
+    <title>Quiz App</title>
+	<style>
+		body{
+      display:flex;
+
+			background-image: url("{{ url_for('static', filename='1.jpg') }}")!important;
+			background-size: cover;
+      overflow-y: scroll;
+      overflow-x: none;
+      flex-direction: column;
+		}
+		.quiz-container {
+      display:flex;
+      flex-direction: column;
+  background-image:url("{{ url_for('static', filename='2.jpg') }}");
+  background-size: cover;
+  color:azure;
+      overflow-y: scroll;
+    
+}
+/* .Questionsss{
+  display:flex;
+  flex-direction: column;
+ 
+      
+    } */
+	</style>
+</head>
+  <body>
+
+    <div class="quiz-container" id="quiz" style="padding-top:0;overflow-y: scroll;overflow-x: hidden;overflow-y: auto;text-align:justify;width:1000px">
+      
+      <div class="dashboard">
+              <p class="dashboard-p">
+                    <span style="color:#fff;">
+                      Points:{{points}} 
+                    </span>
+
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    
+                    <span style="color:#000">
+                      Level:{{Level}}
+                    </span>
+
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    
+                    <span style="color:#8e44ad;">
+                      Stones:{{stone}}
+                    </span>
+              </p>
+      </div>
+
+      <form action="" method="post">
+      <div class="quiz-header">
+        <h2 id="question">Question 1</h2>
+
+        <div class="Questionsss">
+        {% for quest in question%}
+          <p>{{quest}}</p>
+          <br>
+        {%endfor%}
+      </div>
+
+      <!-- <div class="Questionsss">
+        {% for img in images%}
+          <p>{{img}}</p>
+          <br>
+        {%endfor%}
+      </div> -->
+        
+        <ul>
+          <li>  <label for="a" id="a_text">Answer Below</label>
+            
+          
+          </li>
+          <li> 
+            <input type="text" id="answer" name="answer" placeholder=" Answer">
+          
+          </li>
+
+         
+        </ul>
+
+      </div>
+      <button id="submit">Submit</button>
+    </form>
+    </div>
+
+
+    
+  </body>
+</html>
