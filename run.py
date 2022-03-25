@@ -15,7 +15,6 @@ class UserRegister(db.Model):
     name = db.Column(db.String, nullable=False)
     user_email = db.Column(db.String, primary_key=True, unique=True, nullable=False)
     user_password = db.Column(db.String, nullable=False)
-    start_time
 
     def __init__(self, name, email, password):
         self.name = name
