@@ -15,7 +15,7 @@ class UserRegister(db.Model):
     name = db.Column(db.String, nullable=False)
     user_email = db.Column(db.String, primary_key=True, unique=True, nullable=False)
     user_password = db.Column(db.String, nullable=False)
-    start_time
+    
 
     def __init__(self, name, email, password):
         self.name = name
@@ -155,7 +155,7 @@ def redirects(level, Number):
             2: {1: ["10301"], 2: ["vision told this in conference","vision"], 3: ["3125"], 4: ["Doctor Strange","Dr. Strange"], 5: ["101000"]},
             3: {1: ["control pad"], 2: ["control board"], 3: ["microcontroller"], 4: ["integrated development enviroment"],5: ["compile"], 6: ["loop"]},
             4: {1:["captain america","steve rogers"],2:["the stork club"],3:["bucky barnes"],4:["hydra"],5:["scepter"],6:["vision"],7:["scarlet witch","wanda maximoff"],8:["pietro maximoff"],9:["sokovia"],10:["friday"],11:["11"],12:["kamar taj"],13:["14000605"],14:["avengers assemble"],15:["3000"]},
-            5: {1:["130"],2: ["One rotation by 10° & 13 rotations by 130°"], 3: ["Same as mirror"], 4: ["refractive index"],5:["heroes"]},
+            5: {1:["130"],2: ["One rotation by 10° & 13 rotations by 130°"], 3: ["same as mirror"], 4: ["refractive index"],5:["heroes"]},
         }
         question_dict = {
             1:4,
@@ -184,6 +184,18 @@ def answers(level, Number):
         3: {1: "9", 2: "10", 3: "11", 4: "12",5: "13", 6: "14"},
         4: {1:"15",2:"16",3:"17",4:"18",5:"19",6:"20",7:"21",8:"22",9:"23",10:"24",11:"25",12:"26",13:"27",14:"28",15:"29"},
         5: {1: "30", 2: "31", 3: "32"},
+    }
+    image_dict= {
+        # https://drive.google.com/file/d/1BLzgtSKLbqDDT-7qkV2u0lv72a7DGeZR/view?usp=sharing
+        1: { 3: "https://drive.google.com/uc?export=view&id=1iOntsdnYmZoVbi1RHq2XfZiBdSfUYcmJ"},
+        2: {1: "https://drive.google.com/uc?export=view&id=1qCyXkVx58bSYPTuFSj_vfGenC0-7IFzC", 
+            2: "https://drive.google.com/uc?export=view&id=18hDjNzg6MzHyjIhyGlKka3xAK0DCjn17", 
+            3: "https://drive.google.com/uc?export=view&id=1WqX4I17WcwkBC3lZZZ5rryN78AKonAUJ", 
+            4: "https://drive.google.com/uc?export=view&id=1V7Z2LhZOpjwoG61L3YST8bKPmcgYi91a", 
+            5: "https://drive.google.com/uc?export=view&id=1Xrk5OcOGA5HVi4OBtj6R4u0wSGjGCRRk"},
+        3: {1: "https://drive.google.com/uc?export=view&id=1iec0XfuRt0Kw0t5vGEDeWp5L07Ta5XL2", 
+            2: "https://drive.google.com/uc?export=view&id=100h3dLLxEXOotogtMZKaPANAh25uQ8nt"},
+        5: {1: "https://drive.google.com/uc?export=view&id=1BLzgtSKLbqDDT-7qkV2u0lv72a7DGeZR"},
     }
 
     question_dict = {
@@ -228,6 +240,7 @@ def answers(level, Number):
                 "But the dilemma occurs as his knowledge is limited to the current era of earth and requires the help of you guys in creating it.",
                 "The scepter is found to be enclosed in a protective shield which requires a five-digit password to disarm the shield. Help tony stark in cracking up this problem:",
                 "* The five-digit password is in the result of the below mentioned pseudo code: - *",
+                
             ],
             2: [
                 "Well Done!",
@@ -461,6 +474,7 @@ def answers(level, Number):
         stone=level - 1,
         question=question_dict[level][Number],
         Number=Number,
+        images=image_dict[level][Number]
     )
 
 

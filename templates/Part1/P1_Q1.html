@@ -67,12 +67,16 @@
         {%endfor%}
       </div>
 
-      <!-- <div class="Questionsss">
-        {% for img in images%}
-          <p>{{img}}</p>
+      {% if images!=None %}
+      <div class="Questionsss">
+        
+        
+        <img src="{{images}}" alt="">
+          
           <br>
-        {%endfor%}
-      </div> -->
+       
+      </div>
+      {%endif%}
         
         <ul>
           <li>  <label for="a" id="a_text">Answer Below</label>
