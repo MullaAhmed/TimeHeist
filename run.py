@@ -74,14 +74,10 @@ def register():
         password = request.form["password"]
         password = password.lower()
         regex_email = "^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$"
-        regex_name = "^[A-Za-z][A-Za-z0-9_]{7,29}$"
-        regex_password = (
-            reg
-        ) = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!#%*?&]{6,20}$"
         if (
             not re.search(regex_email, email)
-            or not re.search(regex_password, password)
-            or not re.search(regex_name, name)
+            # or not re.search(regex_password, password)
+            # or not re.search(regex_name, name)
         ):
             return render_template(
                 "register.html", message="Invalid email or password or name"
