@@ -9,13 +9,36 @@ import re
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///registration.db"
 db = SQLAlchemy(app)
+points_dict = {
+    1: {1: 0, 2: 1, 3: 2, 4: 1},
+    2: {1: 4, 2: 5, 3: 6, 4: 7, 5: 8},
+    3: {1: 9, 2: 10, 3: 11, 4: 12, 5: 13, 6: 14},
+    4: {
+        1: 15,
+        2: 16,
+        3: 17,
+        4: 18,
+        5: 19,
+        6: 20,
+        7: 21,
+        8: 22,
+        9: 23,
+        10: 24,
+        11: 25,
+        12: 26,
+        13: 27,
+        14: 28,
+        15: 29,
+    },
+    5: {1: 30, 2: 31, 3: 32},
+}
+passkeys_dict = {1: "MOMO10", 2: "522", 3: "DDNJDM", 4: "ARZFQTQNQD915Y9"}
 
 
 class UserRegister(db.Model):
     name = db.Column(db.String, nullable=False)
     user_email = db.Column(db.String, primary_key=True, unique=True, nullable=False)
     user_password = db.Column(db.String, nullable=False)
-    
 
     def __init__(self, name, email, password):
         self.name = name
@@ -134,67 +157,157 @@ def main():
 @app.route("/rules", methods=["POST", "GET"])
 def rules():
     rule_link = "https://drive.google.com/file/d/1-FYyO2BVAaioXFOo15CaX-dW3-QGPHVU/view?usp=drivesdk"
-    return render_template("rules.html",rule_link=rule_link)
+    return render_template("rules.html", rule_link=rule_link)
 
+
+@app.route("/start", methods=["GET"])
+def start_game():
+    return redirect("/level/1/question/1")
 
 @app.route("/thanks", methods=["POST", "GET"])
 def thanks():
     return render_template("thanks.html")
 
 
+@app.route("/level/<int:level>/pass_key", methods=["GET"])
+def show_pass_key_page(level):
+    points = 0
+    for key, value in points_dict[level].items():
+        points += value
+    return render_template(
+        "Part1/P1_passkey.html", level=level, points=points, stones=level
+    )
+
+
+@app.route("/level/<int:level>/pass_key", methods=["POST"])
+def get_pass_keys(level):
+    if request.method == "POST":
+        pass_key = request.form["passkeys"]
+        Number = 1
+        if pass_key == passkeys_dict[level]:
+            if level < 5:
+                level += 1
+                Number = 1
+            elif level == 5:
+                return redirect("/")
+            return redirect(f"/level/{level}/question/{Number}")
+        else:
+            return redirect("/level/{level}/pass_key")
+
+
 @app.route("/level/<int:level>/question/<int:Number>", methods=["POST"])
 def redirects(level, Number):
     if request.method == "POST":
         option = request.form["answer"]
-        option=str(option).lower()
+        option = str(option).lower()
+        images_dict = {
+            1: {
+                3: "https://user-images.githubusercontent.com/98803019/160077147-8207bbca-d1cf-4359-aa0c-cd1836b44337.png"
+            }
+        }
         answer_dict = {
-            1: {1: ["momentum"], 2: ["momentum"], 3: ["1","one"], 4: ["0","zero"]},
-            2: {1: ["10301"], 2: ["vision told this in conference","vision"], 3: ["3125"], 4: ["Doctor Strange","Dr. Strange","doctor strange"], 5: ["101000"]},
-            3: {1: ["control pad"], 2: ["control board"], 3: ["microcontroller"], 4: ["integrated development enviroment"],5: ["compile"], 6: ["loop"]},
-            4: {1:["captain america","steve rogers"],2:["the stork club"],3:["bucky barnes"],4:["hydra"],5:["scepter"],6:["vision"],7:["scarlet witch","wanda maximoff"],8:["pietro maximoff"],9:["sokovia"],10:["friday"],11:["11"],12:["kamar taj"],13:["14000605"],14:["avengers assemble"],15:["3000"]},
-            5: {1:["130"],2: ["One rotation by 10° & 13 rotations by 130°"], 3: ["same as mirror"], 4: ["refractive index"],5:["heroes"]},
+            1: {1: ["momentum"], 2: ["momentum"], 3: ["1", "one"], 4: ["0", "zero"]},
+            2: {
+                1: ["10301"],
+                2: ["vision told this in conference", "vision"],
+                3: ["3125"],
+                4: ["Doctor Strange", "Dr. Strange", "doctor strange"],
+                5: ["101000"],
+            },
+            3: {
+                1: ["control pad"],
+                2: ["control board"],
+                3: ["microcontroller"],
+                4: ["integrated development enviroment"],
+                5: ["compile"],
+                6: ["loop"],
+            },
+            4: {
+                1: ["captain america", "steve rogers"],
+                2: ["the stork club"],
+                3: ["bucky barnes"],
+                4: ["hydra"],
+                5: ["scepter"],
+                6: ["vision"],
+                7: ["scarlet witch", "wanda maximoff"],
+                8: ["pietro maximoff"],
+                9: ["sokovia"],
+                10: ["friday"],
+                11: ["11"],
+                12: ["kamar taj"],
+                13: ["14000605"],
+                14: ["avengers assemble"],
+                15: ["3000"],
+            },
+            5: {
+                1: ["130"],
+                2: [
+                    "One rotation by 10° & 13 rotations by 130°",
+                    "one rotation by 10° & 13 rotations by 130°",
+                ],
+                3: ["Same as mirror", "same as mirror"],
+                4: ["refractive index"],
+                5: ["heroes"],
+            },
         }
-        question_dict = {
-            1:4,
-            2:5,
-            3:6,
-            4:15,
-            5:3
-        }
+        question_dict = {1: 4, 2: 5, 3: 6, 4: 15, 5: 3}
         print(option, answer_dict[level][Number])
         if option in answer_dict[level][Number]:
             if question_dict[level] > Number:
                 Number += 1
-            elif Number == question_dict[level]:
-                level += 1
-                Number = 1
-            return redirect(f"/level/{level}/question/{Number}")
-        else:
-            return redirect(f"/level/{level}/question/{Number}")
+            elif level != 5 and Number == question_dict[level]:
+                return redirect(f"/level/{level}/pass_key")
+            elif level == 5 and Number == question_dict[level]:
+                return render_template("Thanks.html")
+        return redirect(f"/level/{level}/question/{Number}")
 
-@app.route("/level/<int:level>/question/<int:Number>", methods=["GET"],defaults={"level":1,"Number":1})
+
+@app.route("/level/<int:level>/question/<int:Number>", methods=["GET"])
 def answers(level, Number):
 
     points_dict = {
-        1: {1: "0", 2: "1", 3: "2", 4: "3"},
+        1: {1: "0", 2: "1", 3: "2", 4: 1},
         2: {1: "4", 2: "5", 3: "6", 4: "7", 5: "8"},
-        3: {1: "9", 2: "10", 3: "11", 4: "12",5: "13", 6: "14"},
-        4: {1:"15",2:"16",3:"17",4:"18",5:"19",6:"20",7:"21",8:"22",9:"23",10:"24",11:"25",12:"26",13:"27",14:"28",15:"29"},
+        3: {1: "9", 2: "10", 3: "11", 4: "12", 5: "13", 6: "14"},
+        4: {
+            1: "15",
+            2: "16",
+            3: "17",
+            4: "18",
+            5: "19",
+            6: "20",
+            7: "21",
+            8: "22",
+            9: "23",
+            10: "24",
+            11: "25",
+            12: "26",
+            13: "27",
+            14: "28",
+            15: "29",
+        },
         5: {1: "30", 2: "31", 3: "32"},
     }
-    image_dict= {
+    image_dict = {
         # https://drive.google.com/file/d/1BLzgtSKLbqDDT-7qkV2u0lv72a7DGeZR/view?usp=sharing
-        1: { 3: "https://drive.google.com/uc?export=view&id=1iOntsdnYmZoVbi1RHq2XfZiBdSfUYcmJ"},
-        2: {1: "https://drive.google.com/uc?export=view&id=1qCyXkVx58bSYPTuFSj_vfGenC0-7IFzC", 
-            2: "https://drive.google.com/uc?export=view&id=18hDjNzg6MzHyjIhyGlKka3xAK0DCjn17", 
-            3: "https://drive.google.com/uc?export=view&id=1WqX4I17WcwkBC3lZZZ5rryN78AKonAUJ", 
-            4: "https://drive.google.com/uc?export=view&id=1V7Z2LhZOpjwoG61L3YST8bKPmcgYi91a", 
-            5: "https://drive.google.com/uc?export=view&id=1Xrk5OcOGA5HVi4OBtj6R4u0wSGjGCRRk"},
-        3: {1: "https://drive.google.com/uc?export=view&id=1iec0XfuRt0Kw0t5vGEDeWp5L07Ta5XL2", 
-            2: "https://drive.google.com/uc?export=view&id=100h3dLLxEXOotogtMZKaPANAh25uQ8nt"},
-        5: {1: "https://drive.google.com/uc?export=view&id=1BLzgtSKLbqDDT-7qkV2u0lv72a7DGeZR"},
+        1: {
+            3: "https://drive.google.com/uc?export=view&id=1iOntsdnYmZoVbi1RHq2XfZiBdSfUYcmJ"
+        },
+        2: {
+            1: "https://drive.google.com/uc?export=view&id=1qCyXkVx58bSYPTuFSj_vfGenC0-7IFzC",
+            2: "https://drive.google.com/uc?export=view&id=18hDjNzg6MzHyjIhyGlKka3xAK0DCjn17",
+            3: "https://drive.google.com/uc?export=view&id=1WqX4I17WcwkBC3lZZZ5rryN78AKonAUJ",
+            4: "https://drive.google.com/uc?export=view&id=1V7Z2LhZOpjwoG61L3YST8bKPmcgYi91a",
+            5: "https://drive.google.com/uc?export=view&id=1Xrk5OcOGA5HVi4OBtj6R4u0wSGjGCRRk",
+        },
+        3: {
+            1: "https://drive.google.com/uc?export=view&id=1iec0XfuRt0Kw0t5vGEDeWp5L07Ta5XL2",
+            2: "https://drive.google.com/uc?export=view&id=100h3dLLxEXOotogtMZKaPANAh25uQ8nt",
+        },
+        5: {
+            1: "https://drive.google.com/uc?export=view&id=1BLzgtSKLbqDDT-7qkV2u0lv72a7DGeZR"
+        },
     }
-
     question_dict = {
         1: {
             1: [
@@ -237,7 +350,6 @@ def answers(level, Number):
                 "But the dilemma occurs as his knowledge is limited to the current era of earth and requires the help of you guys in creating it.",
                 "The scepter is found to be enclosed in a protective shield which requires a five-digit password to disarm the shield. Help tony stark in cracking up this problem:",
                 "* The five-digit password is in the result of the below mentioned pseudo code: - *",
-                
             ],
             2: [
                 "Well Done!",
@@ -430,59 +542,57 @@ def answers(level, Number):
                 "x ~= 20 mins",
                 "Same as above. Angle b/w hour and minute hand at 4:20.",
             ],
-            4:[
-                'Bravo!! The Eye of Agamotto is now opened and Dr. Strange makes a time loop to trap Thanos in mirror dimension.', 
-                'Thanos is put in the mirror dimension. But Thanos has the power of other stones so he escapes the time loop with the help of their powers.',
-'Thor tries to stop Thanos from escaping and tries to get his hammer back. But Thanos in between catches it.', 
-'This makes Thor shocked and makes him stand still in front of Thanos. Thanos taking advantage of the situation hits Thor with his hammer.',
-'But suddenly Captain America arrives and saves Thor with his shield. Thanos gets surprised that how can a shield absorb such a massive attack.',
-'There present Hawkeye and Natasha smirks and tell him that this is because of vibranium!',
-'The shield is made of an alloy of steel and vibranium. The steel is to provide strength and rigidity so that when Captain America throws his mighty shield, it will ricochet,', 
-'and the vibranium because it absorbs all vibrations, making it the perfect shock absorber, as seen in the scene where it absorbs Thor\'s hammer blow.',
-'Energy can\'t be destroyed. It can only be converted to another form. The energy of the hammer strike is converted into sound waves in the hammer, and if the vibranium absorbs it,', 
-'it\'s converted into blue light, ultraviolet light, this enormous flash of light that\'s given off. It\'s showing that the vibranium is actually a perfect sonoluminescent material.',
-'"Sono" meaning sound, "luminescent" meaning light. You send sound waves in, and you get light out.',
-'There is only a very narrow frequency range where sound and light waves overlap around 100 GHz to 10 THz. During this period, the',
-'sound waves cause the air to compress and decompress which will affect the ______ of light going through the air perturbed by a sound wave.'
-
+            4: [
+                "Bravo!! The Eye of Agamotto is now opened and Dr. Strange makes a time loop to trap Thanos in mirror dimension.",
+                "Thanos is put in the mirror dimension. But Thanos has the power of other stones so he escapes the time loop with the help of their powers.",
+                "Thor tries to stop Thanos from escaping and tries to get his hammer back. But Thanos in between catches it.",
+                "This makes Thor shocked and makes him stand still in front of Thanos. Thanos taking advantage of the situation hits Thor with his hammer.",
+                "But suddenly Captain America arrives and saves Thor with his shield. Thanos gets surprised that how can a shield absorb such a massive attack.",
+                "There present Hawkeye and Natasha smirks and tell him that this is because of vibranium!",
+                "The shield is made of an alloy of steel and vibranium. The steel is to provide strength and rigidity so that when Captain America throws his mighty shield, it will ricochet,",
+                "and the vibranium because it absorbs all vibrations, making it the perfect shock absorber, as seen in the scene where it absorbs Thor's hammer blow.",
+                "Energy can't be destroyed. It can only be converted to another form. The energy of the hammer strike is converted into sound waves in the hammer, and if the vibranium absorbs it,",
+                "it's converted into blue light, ultraviolet light, this enormous flash of light that's given off. It's showing that the vibranium is actually a perfect sonoluminescent material.",
+                '"Sono" meaning sound, "luminescent" meaning light. You send sound waves in, and you get light out.',
+                "There is only a very narrow frequency range where sound and light waves overlap around 100 GHz to 10 THz. During this period, the",
+                "sound waves cause the air to compress and decompress which will affect the ______ of light going through the air perturbed by a sound wave.",
             ],
-            5:[
-                'Well, it’s great that you have a good knowledge of sound and light!',
-'Dr. Strange hints Tony that this is the one possibility that he saw where they could win. Tony sees an opportunity in the confusion and transfers the stones to his nano gauntlet.', 
-'So, Tony shows that he is trying to grab the gauntlet off of Thanos, but instead grabs all the stones and place them in his nano-tech gauntlet. “And I… am… Iron Man”. *Snaps* ',
-'But nothing happens. Everyone gets confuse and look at each other as if they want to ask each other that \'Why didn\'t it work?!\'. ',
-'Thanos on the other hand tries to get out of the mirror dimension. ',
-'Dr. Strange knows that Tony Stark would die after he snaps. He still thinks about a way so that he can save Tony’s life.', 
-'As every action has an equal opposite reaction, the consequences of using the power of the stones is that something is taken from the one who used them.', 
-'Tony being a mortal was ready to use the stones to kill the whole army and face the consequence of losing all his lifespan and dying.', 
-'So, Dr. Strange decides to seal Thanos in mirror dimension forever. For this Bruce comes forward and gets ready to bear the consequences of the same.',
-'Bruce then snaps his fingers to seal the mirror dimension forever which does not affect the reality much. Hence the consequences he receives is losing the power to ever become Hulk.', 
-'Thus, Thanos gets trapped in the mirror dimension forever and without anyone sacrificing their life!',
-'With a happy ending Nick Fury summons all the avengers and throws a party where he cheers to their win and tells that,',
-'“I still believe in ________. And you guys proved it!”',
-
-            ]
+            5: [
+                "Well, it’s great that you have a good knowledge of sound and light!",
+                "Dr. Strange hints Tony that this is the one possibility that he saw where they could win. Tony sees an opportunity in the confusion and transfers the stones to his nano gauntlet.",
+                "So, Tony shows that he is trying to grab the gauntlet off of Thanos, but instead grabs all the stones and place them in his nano-tech gauntlet. “And I… am… Iron Man”. *Snaps* ",
+                "But nothing happens. Everyone gets confuse and look at each other as if they want to ask each other that 'Why didn't it work?!'. ",
+                "Thanos on the other hand tries to get out of the mirror dimension. ",
+                "Dr. Strange knows that Tony Stark would die after he snaps. He still thinks about a way so that he can save Tony’s life.",
+                "As every action has an equal opposite reaction, the consequences of using the power of the stones is that something is taken from the one who used them.",
+                "Tony being a mortal was ready to use the stones to kill the whole army and face the consequence of losing all his lifespan and dying.",
+                "So, Dr. Strange decides to seal Thanos in mirror dimension forever. For this Bruce comes forward and gets ready to bear the consequences of the same.",
+                "Bruce then snaps his fingers to seal the mirror dimension forever which does not affect the reality much. Hence the consequences he receives is losing the power to ever become Hulk.",
+                "Thus, Thanos gets trapped in the mirror dimension forever and without anyone sacrificing their life!",
+                "With a happy ending Nick Fury summons all the avengers and throws a party where he cheers to their win and tells that,",
+                "“I still believe in ________. And you guys proved it!”",
+            ],
         },
     }
     try:
         return render_template(
-                "Part1/P1_Q1.html",
-                points=points_dict[level][Number],
-                Level=level,
-                stone=level - 1,
-                question=question_dict[level][Number],
-                Number=Number,
-                images=image_dict[level][Number]
-            )
+            "Part1/P1_Q1.html",
+            points=points_dict[level][Number],
+            Level=level,
+            stone=level - 1,
+            question=question_dict[level][Number],
+            Number=Number,
+            images=image_dict[level][Number],
+        )
     except:
         return render_template(
-                "Part1/P1_Q1.html",
-                points=points_dict[level][Number],
-                Level=level,
-                stone=level - 1,
-                question=question_dict[level][Number],
-                Number=Number,
-            )
+            "Part1/P1_Q1.html",
+            points=points_dict[level][Number],
+            Level=level,
+            stone=level - 1,
+            question=question_dict[level][Number],
+            Number=Number,
+        )
 
 
 @app.route("/P1_pass-key1", methods=["POST", "GET"])
