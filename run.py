@@ -147,7 +147,7 @@ def redirects(level, Number):
         option = request.form["answer"]
         option=str(option).lower()
         answer_dict = {
-            1: {1: ["momentum"], 2: ["momentum"], 3: ["1V"], 4: ["0"]},
+            1: {1: ["momentum"], 2: ["momentum"], 3: ["1","one"], 4: ["0","zero"]},
             2: {1: ["10301"], 2: ["vision told this in conference","vision"], 3: ["3125"], 4: ["Doctor Strange","Dr. Strange"], 5: ["101000"]},
             3: {1: ["control pad"], 2: ["control board"], 3: ["microcontroller"], 4: ["integrated development enviroment"],5: ["compile"], 6: ["loop"]},
             4: {1:["captain america","steve rogers"],2:["the stork club"],3:["bucky barnes"],4:["hydra"],5:["scepter"],6:["vision"],7:["scarlet witch","wanda maximoff"],8:["pietro maximoff"],9:["sokovia"],10:["friday"],11:["11"],12:["kamar taj"],13:["14000605"],14:["avengers assemble"],15:["3000"]},
