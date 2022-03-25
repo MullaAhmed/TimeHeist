@@ -171,7 +171,7 @@ def redirects(level, Number):
         else:
             return redirect(f"/level/{level}/question/{Number}")
 
-@app.route("/level/<int:level>/question/<int:Number>", methods=["POST", "GET"])
+@app.route("/level/<int:level>/question/<int:Number>", methods=["GET"])
 def answers(level, Number):
 
     points_dict = {
@@ -463,15 +463,25 @@ def answers(level, Number):
             ]
         },
     }
-    return render_template(
-        "Part1/P1_Q1.html",
-        points=points_dict[level][Number],
-        Level=level,
-        stone=level - 1,
-        question=question_dict[level][Number],
-        Number=Number,
-        images=image_dict[level][Number]
-    )
+    try:
+        return render_template(
+                "Part1/P1_Q1.html",
+                points=points_dict[level][Number],
+                Level=level,
+                stone=level - 1,
+                question=question_dict[level][Number],
+                Number=Number,
+                images=image_dict[level][Number]
+            )
+    except:
+        return render_template(
+                "Part1/P1_Q1.html",
+                points=points_dict[level][Number],
+                Level=level,
+                stone=level - 1,
+                question=question_dict[level][Number],
+                Number=Number,
+            )
 
 
 @app.route("/P1_pass-key1", methods=["POST", "GET"])
