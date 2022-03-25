@@ -32,7 +32,7 @@ points_dict = {
     },
     5: {1: 30, 2: 31, 3: 32},
 }
-passkeys_dict = {1: "MOMO10", 2: "522", 3: "DDNJDM", 4: "ARZFQTQNQD915Y9"}
+passkeys_dict = {1: ["MOMO10"], 2: ["1V3D1"], 3: ["DDNJDM"], 4: ["EVDJUXVRUH3M3C5","UVDJUXRUH3M3C5","EVDJUXYRUH3M3C5","UVDJUXYRUH3M3C5"]}
 
 
 class UserRegister(db.Model):
@@ -184,7 +184,7 @@ def get_pass_keys(level):
     if request.method == "POST":
         pass_key = request.form["passkeys"]
         Number = 1
-        if pass_key == passkeys_dict[level]:
+        if pass_key in passkeys_dict[level]:
             if level < 5:
                 level += 1
                 Number = 1
