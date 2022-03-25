@@ -172,7 +172,7 @@ def redirects(level, Number):
         else:
             return redirect(f"/level/{level}/question/{Number}")
 
-@app.route("/level/<int:level>/question/<int:Number>", methods=["GET"])
+@app.route("/level/<int:level>/question/<int:Number>", methods=["GET"],defaults={"level":1,"Number":1})
 def answers(level, Number):
 
     points_dict = {
