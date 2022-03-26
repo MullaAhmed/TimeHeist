@@ -512,6 +512,9 @@ def answers(level, Number):
                 "So, he needs your help to figure out the geometry and rotations to open the eye of Agamotto.",
                 "Since they entered the mirror dimension, to work with the eye of agamotto, Strange needs to imagine its mirror image. Help Strange and find the mirror image of the Eye of Agamotto. Take the mirror image about the axis located at your right-hand side.",
                 "Rotate the thus obtained image clockwise by degrees that the hour hand and the minute hand will make at 3:40.",
+                "Now rotate the thus obtained halfway opened Eye of Agamotto 13 times in the anti-clockwise direction with degree made by minute or hour hand when both are exactly aligned after 4PM."
+                "The final image thus obtained will be _____ as that of the mirror image of the above image.",
+                "(Take the approx. values)"
             ],
             2: [
                 "AThor tries to stop Thanos from escaping and tries to get his hammer back. But Thanos in between catches it. This makes Thor shocked and makes him stand still in front of Thanos. Thanos taking advantage of the situation hits Thor with his hammer. But suddenly Captain America arrives and saves Thor with his shield. Thanos gets surprised that how can a shield absorb such a massive attack.",
