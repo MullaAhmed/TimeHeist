@@ -240,7 +240,7 @@ def redirects(level, Number):
                 15: ["3000"],
             },
             5: {
-                1: ["Same"],
+                1: ["Same","same"],
                 2: ["refractive index"],
                 3: ["heroes"],
             },
